@@ -8,5 +8,8 @@ Task: Given the string for a project name, strip the whitespace and normalize th
  ex. "    " -> Raise error, reject empty strings.
 """""
 def normalize_project(project: str) -> str:
-
-    return
+    project = project.strip().lower()
+    project = project.replace(" ", "-")
+    if project == "":
+        raise ValueError("empty string is not allowed")
+    return project

@@ -35,7 +35,7 @@ class TicketService:
           - Project names must be normalized BEFORE they are saved.
           - Think about which value in the dict you need to replace.
         """
-        return
+        return self.repo.insert(data)
 
     def list_tickets(self, project: str | None, resolved: bool | None) -> list[Ticket]:
         """
@@ -54,8 +54,7 @@ class TicketService:
           - self.repo.get_all() already handles the None cases, so you can
             pass the values straight through.
         """
-
-        return
+        return self.repo.get_all();
 
     def set_resolved(self, ticket_id: UUID, value: bool) -> Ticket:
         """
@@ -72,7 +71,9 @@ class TicketService:
           - The repository returns None for "not found". Turning that into
             an error is YOUR job, not the repository's.
         """
-        return
+        if self.repo.get_by_id(ticket_id) == None:
+            raise ValueError("Tciket not found")
+        return self.repo.set_resolved(ticket_id, value)
 
     def delete_ticket(self, ticket_id: UUID) -> None:
         """
@@ -87,4 +88,5 @@ class TicketService:
             anything was deleted.
           - Same pattern as set_resolved: detect "not found", then raise.
         """
-        return
+        self.repo.delete(ticket_id);
+        return None
