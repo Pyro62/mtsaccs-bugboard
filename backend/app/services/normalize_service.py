@@ -1,5 +1,6 @@
 # project name normalizer service
-
+import re
+from errors import InvalidProjectName
 
 """""
 Task: Given the string for a project name, strip the whitespace and normalize the string.
@@ -8,5 +9,11 @@ Task: Given the string for a project name, strip the whitespace and normalize th
  ex. "    " -> Raise error, reject empty strings.
 """""
 def normalize_project(project: str) -> str:
+    project = project.strip().lower()
+    project = re.sub(r"[^a-z0-9]+", "-", project)
+    project = project.strip("-")
 
-    return
+    if not project:
+        raise InvalidProjectName()
+
+    return project
